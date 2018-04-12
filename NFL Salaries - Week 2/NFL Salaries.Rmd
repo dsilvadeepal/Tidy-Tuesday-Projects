@@ -1,6 +1,10 @@
 ---
 title: "NFL Salaries - Week 2"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
+  html_notebook: default
+  pdf_document: default
 ---
 
 
@@ -10,6 +14,7 @@ Load the required libraries
 library(tidyverse)
 library(readxl)
 library(RColorBrewer)
+library(ggthemes)
 ```
 
 Read in the NFL data from Excel
@@ -24,8 +29,6 @@ head(nfl)
 ```
 
 Convert the data to long format
-
-
 
 ```{r}
 nfl_long <- nfl %>%
@@ -42,15 +45,16 @@ nfl_long <- nfl %>%
 Plotting some graphs
 
 ```{r}
-ggplot(aes(x = year, y = salary_in_mil, color = year), data = nfl_long) +
-  ylim(0,20) +
-  geom_boxplot(aes(group = year, fill = year), alpha = 0.25, show.legend=F) +
-  geom_smooth(color = "maroon") +
+ggplot(aes(x = year, y = salary_in_mil, fill = position, color = position), data = nfl_long) +
+  ylim(0,25) +
+  geom_boxplot(aes(group = year), alpha = 0.25) +
+  geom_smooth(color = "navy") +
   ylab("Salary in Millions of $") +
   ggtitle("Top 16 NFL Salaries over time") +
   theme_minimal() +
-  facet_wrap(~position, nrow = 4)
+  theme(legend.position="none") +
+  facet_wrap(~position, nrow = 3)
 
-ggsave("Plot1.png", width = 25, height = 25, units = "cm")
+ggsave("Plot2.png", width = 30, height = 20, units = "cm")
 ```
 

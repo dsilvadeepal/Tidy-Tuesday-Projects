@@ -1,0 +1,300 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={NFL Salaries - Week 2},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{NFL Salaries - Week 2}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \author{}
+  \preauthor{}\postauthor{}
+  \date{}
+  \predate{}\postdate{}
+
+
+\begin{document}
+\maketitle
+
+Load the required libraries
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Attaching packages ------------------------------------------------------------------------------- tidyverse 1.2.1 --
+\end{verbatim}
+
+\begin{verbatim}
+## v ggplot2 2.2.1     v purrr   0.2.4
+## v tibble  1.4.2     v dplyr   0.7.4
+## v tidyr   0.8.0     v stringr 1.3.0
+## v readr   1.1.1     v forcats 0.3.0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'ggplot2' was built under R version 3.4.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'stringr' was built under R version 3.4.4
+\end{verbatim}
+
+\begin{verbatim}
+## -- Conflicts ---------------------------------------------------------------------------------- tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(readxl)}
+\KeywordTok{library}\NormalTok{(RColorBrewer)}
+\end{Highlighting}
+\end{Shaded}
+
+Read in the NFL data from Excel
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nfl <-}\StringTok{ }\KeywordTok{read_xlsx}\NormalTok{(}\StringTok{"tidy_tuesday_week2.xlsx"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Summarise the data
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(nfl)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       year        Cornerback       Defensive Lineman    Linebacker      
+##  Min.   :2011   Min.   :  600000   Min.   : 1400000   Min.   : 1243687  
+##  1st Qu.:2013   1st Qu.: 1110750   1st Qu.: 2574526   1st Qu.: 2101882  
+##  Median :2014   Median : 2235577   Median : 4145908   Median : 3431139  
+##  Mean   :2014   Mean   : 3607021   Mean   : 5277673   Mean   : 4488940  
+##  3rd Qu.:2016   3rd Qu.: 5000000   3rd Qu.: 6729250   3rd Qu.: 6000000  
+##  Max.   :2018   Max.   :20000000   Max.   :26100000   Max.   :22100000  
+##                                                                         
+##  Offensive Lineman   Quarterback        Running Back     
+##  Min.   : 1873750   Min.   :   24705   Min.   :  455125  
+##  1st Qu.: 3022500   1st Qu.:  555000   1st Qu.:  604609  
+##  Median : 4550000   Median : 1300000   Median :  834570  
+##  Mean   : 5348530   Mean   : 4522281   Mean   : 1937492  
+##  3rd Qu.: 6865977   3rd Qu.: 5500000   3rd Qu.: 2250000  
+##  Max.   :17545000   Max.   :37000000   Max.   :15400000  
+##                     NA's   :55                           
+##      Safety         Special Teamer      Tight End       
+##  Min.   :  555000   Min.   : 128824   Min.   :  371824  
+##  1st Qu.:  850750   1st Qu.: 555000   1st Qu.:  584890  
+##  Median : 1597382   Median : 900000   Median :  837913  
+##  Mean   : 2542320   Mean   :1354084   Mean   : 1964608  
+##  3rd Qu.: 3308333   3rd Qu.:1850000   3rd Qu.: 2445312  
+##  Max.   :13000000   Max.   :5250000   Max.   :12262000  
+##                     NA's   :1                           
+##  Wide Receiver     
+##  Min.   :  655812  
+##  1st Qu.: 1414024  
+##  Median : 2600000  
+##  Mean   : 3904309  
+##  3rd Qu.: 4861595  
+##  Max.   :20558000  
+## 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(nfl)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 11
+##    year Cornerback `Defensive Lineman` Linebacker `Offensive Lineman`
+##   <dbl>      <dbl>               <dbl>      <dbl>               <dbl>
+## 1  2011   11265916            17818000   16420000            15960000
+## 2  2011   11000000            16200000   15623000            12800000
+## 3  2011   10000000            12476000   11825000            11767500
+## 4  2011   10000000            11904706   10083333            10358200
+## 5  2011   10000000            11762782   10020000            10000000
+## 6  2011    9244117            11340000    8150000             9859166
+## # ... with 6 more variables: Quarterback <dbl>, `Running Back` <dbl>,
+## #   Safety <dbl>, `Special Teamer` <dbl>, `Tight End` <dbl>, `Wide
+## #   Receiver` <dbl>
+\end{verbatim}
+
+Convert the data to long format
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nfl_long <-}\StringTok{ }\NormalTok{nfl }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{gather}\NormalTok{(position, salary, }\OperatorTok{-}\NormalTok{year) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(year, position) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{top_n}\NormalTok{(}\DataTypeTok{n =} \DecValTok{16}\NormalTok{, }\DataTypeTok{wt =}\NormalTok{ salary) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{salary_in_mil =}\NormalTok{ salary}\OperatorTok{/}\DecValTok{1000000}\NormalTok{, }\DataTypeTok{mean_salary =} \KeywordTok{mean}\NormalTok{(salary_in_mil)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{ungroup}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+Plotting some graphs
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ year, }\DataTypeTok{y =}\NormalTok{ salary_in_mil, }\DataTypeTok{color =}\NormalTok{ year), }\DataTypeTok{data =}\NormalTok{ nfl_long) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{ylim}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{20}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_boxplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{group =}\NormalTok{ year, }\DataTypeTok{fill =}\NormalTok{ year), }\DataTypeTok{alpha =} \FloatTok{0.25}\NormalTok{, }\DataTypeTok{show.legend=}\NormalTok{F) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{color =} \StringTok{"maroon"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{ylab}\NormalTok{(}\StringTok{"Salary in Millions of $"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Top 16 NFL Salaries over time"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme_minimal}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{facet_wrap}\NormalTok{(}\OperatorTok{~}\NormalTok{position, }\DataTypeTok{nrow =} \DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Removed 40 rows containing non-finite values (stat_boxplot).
+\end{verbatim}
+
+\begin{verbatim}
+## `geom_smooth()` using method = 'loess'
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Removed 40 rows containing non-finite values (stat_smooth).
+\end{verbatim}
+
+\includegraphics{NFL_Salaries_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggsave}\NormalTok{(}\StringTok{"Plot1.png"}\NormalTok{, }\DataTypeTok{width =} \DecValTok{25}\NormalTok{, }\DataTypeTok{height =} \DecValTok{25}\NormalTok{, }\DataTypeTok{units =} \StringTok{"cm"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Removed 40 rows containing non-finite values (stat_boxplot).
+\end{verbatim}
+
+\begin{verbatim}
+## `geom_smooth()` using method = 'loess'
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Removed 40 rows containing non-finite values (stat_smooth).
+\end{verbatim}
+
+
+\end{document}
