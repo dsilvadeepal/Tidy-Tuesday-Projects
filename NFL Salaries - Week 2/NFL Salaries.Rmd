@@ -1,0 +1,51 @@
+---
+title: "NFL Salaries - Week 2"
+output: html_notebook
+---
+
+
+Load the required libraries
+
+```{r}
+library(tidyverse)
+library(readxl)
+library(RColorBrewer)
+```
+
+Read in the NFL data from Excel
+```{r}
+nfl <- read_xlsx("tidy_tuesday_week2.xlsx")
+```
+
+
+```{r}
+summary(nfl)
+head(nfl)
+```
+
+Convert the data to long format
+
+```{r}
+nfl_long <- nfl %>%
+  gather(position, salary, -year) %>%
+  group_by(year, position) %>%
+  top_n(n = 16, wt = salary) %>%
+  mutate(salary_in_mil = salary/1000000, mean_salary = mean(salary_in_mil))
+ 
+  
+```
+
+
+Plotting some graphs
+
+```{r}
+ggplot(aes(x = year, y = salary_in_mil, color = year), data = nfl_long) +
+  ylim(0,20) +
+  geom_boxplot(aes(group = year, fill = year), alpha = 0.25) +
+  geom_smooth(color = "maroon") +
+  ylab("Salary in Millions of $") +
+  ggtitle("Top 16 NFL Salaries over time") +
+  theme_minimal() +
+  facet_wrap(~position, nrow = 4)
+```
+
