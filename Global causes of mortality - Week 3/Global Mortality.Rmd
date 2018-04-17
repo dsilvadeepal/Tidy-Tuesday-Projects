@@ -1,0 +1,63 @@
+---
+title: "Global Mortality"
+author: "Deepal DSilva"
+date: "April 16, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Load the required libraries
+```{r}
+library(tidyverse)
+library(readxl)
+```
+Read in the data
+```{r}
+mortality <- read_xlsx("global_mortality.xlsx")
+```
+
+Summarize the data
+```{r}
+str(mortality)
+summary(mortality)
+```
+
+Get rid of all the % in the column names
+```{r}
+names(mortality) <- names(mortality) %>%
+  gsub("\\s\\(%\\)","", .)
+```
+
+```{r}
+mortality.long <- mortality %>% 
+  gather(cause, percent, 4:35) %>%
+  mutate(cause = as.factor(cause), country = as.factor(country), country_code = as.factor(country_code))
+```
+
+```{r}
+summary(mortality.long)
+
+```
+
+Inspect the Country codes with NAs
+
+```{r}
+table(mortality.long$country, mortality.long$country_code == "")
+```
+
+Leading Causes of Death around the World
+```{r}
+mortality.long  %>% 
+  filter(year %in% c(2016) , country_code %in% ("OWID_WRL")) %>%
+  mutate(cause = fct_reorder(cause, percent, min)) %>%
+  ggplot(aes(x = cause, y = percent, fill = cause)) + 
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  guides(fill = FALSE) + 
+  theme_minimal()
+ 
+```
+ 
