@@ -16,7 +16,7 @@ library(readxl)
 ```
 Read in the data
 ```{r}
-mortality <- read_xlsx("global_mortality.xlsx")
+mortality <- read_excel("global_mortality.xlsx")
 ```
 
 Summarize the data
@@ -29,35 +29,84 @@ Get rid of all the % in the column names
 ```{r}
 names(mortality) <- names(mortality) %>%
   gsub("\\s\\(%\\)","", .)
-```
 
-```{r}
 mortality.long <- mortality %>% 
   gather(cause, percent, 4:35) %>%
   mutate(cause = as.factor(cause), country = as.factor(country), country_code = as.factor(country_code))
-```
-
-```{r}
-summary(mortality.long)
 
 ```
 
-Inspect the Country codes with NAs
-
-```{r}
-table(mortality.long$country, mortality.long$country_code == "")
-```
 
 Leading Causes of Death around the World
 ```{r}
 mortality.long  %>% 
-  filter(year %in% c(2016) , country_code %in% ("OWID_WRL")) %>%
+  filter(year %in% c(2016), country_code %in% ("OWID_WRL")) %>%
   mutate(cause = fct_reorder(cause, percent, min)) %>%
   ggplot(aes(x = cause, y = percent, fill = cause)) + 
   geom_bar(stat = "identity") +
   coord_flip() +
   guides(fill = FALSE) + 
+  ggtitle("Causes of Mortality around the World (2016)") +
+  scale_y_continuous(breaks = c(0,5,10,15,20,25,30), labels = c("0%", "5%", "10%", "15%", "20%", "25%", "30%")) +
+  labs(y = NULL, x = NULL) +
   theme_minimal()
+
+ggsave("Plot1.png", width = 30, height = 20, units = "cm")
  
 ```
  
+################################
+
+I calculated the percent difference between years 1990 and 2016 (for the World data) to find the change in percent over the years. 
+Then I sorted the causes based on the increase or decrease change in percent.
+
+```{r}
+
+#Data Prep
+mortality_world <- mortality.long  %>% 
+  filter(country_code %in% ("OWID_WRL"), year %in% c(1990, 2016)) %>%
+  spread(year, percent) %>%
+  mutate(percentchange = `2016` - `1990`) 
+
+mortality_world$percentchange <- round(mortality_world$percentchange, digits = 2)
+mortality_world$percent_type <- ifelse(mortality_world$percentchange < 0, "decreased", "increased") 
+
+mortality_world <- mortality_world[order(mortality_world$percentchange),]
+mortality_world$cause <- factor(mortality_world$cause, levels = mortality_world$cause)
+  
+
+  #Diverging Bar Chart
+  
+  ggplot(aes(x = cause, y = percentchange, label = percentchange), data = mortality_world) + 
+  geom_bar(stat = "identity", aes(fill = percent_type), width = .5) +
+  geom_text(color = "black", size = 2.5, nudge_y = 0.2) +  
+  coord_flip() +  
+  scale_fill_manual(name="Percent Change", 
+                    labels = c("Increased", "Decreased"), 
+                    values = c("increased"="#00ba38", "decreased"="#f8766d"))  +  
+  labs(y = NULL, x = NULL, title = "Causes of Mortality around the World", subtitle = "Change in Percent from 1990 to 2016") +
+  theme_minimal()
+  
+
+  ggsave("Plot2.png", width = 30, height = 20, units = "cm")  
+```
+ We've seen a sharp increase in Cardiovascular diseases, cancers and diabetes while neonatal deaths and diarrheal disease deaths have reduced the most over the years.
+ 
+ ####################################
+ 
+ Just curious about how India stands, so created this chart
+ 
+```{r}
+mortality.long  %>% 
+  filter(year %in% c(2016), country_code %in% ("IND")) %>%
+  mutate(cause = fct_reorder(cause, percent, min)) %>%
+  ggplot(aes(x = cause, y = percent, fill = cause, frame = year)) + 
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  guides(fill = FALSE) + 
+  ggtitle("Causes of Mortality in India (2016)") +
+  scale_y_continuous(breaks = c(0,5,10,15,20,25,30), labels = c("0%", "5%", "10%", "15%", "20%", "25%", "30%")) +
+  labs(y = NULL, x = NULL) +
+  theme_minimal()
+```
+
