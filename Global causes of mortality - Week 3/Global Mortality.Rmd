@@ -90,7 +90,9 @@ mortality_world$cause <- factor(mortality_world$cause, levels = mortality_world$
 
   ggsave("Plot2.png", width = 30, height = 20, units = "cm")  
 ```
- We've seen a sharp increase in Cardiovascular diseases, cancers and diabetes while neonatal deaths and diarrheal disease deaths have reduced the most over the years.
+We see a huge increase in cardiovascular diseases, cancers and diabetes while neonatal deaths and diarrheal disease deaths have reduced the most over the years.
+
+So while quality of healthcare has increased which lowered the lower causes of mortality,  lifestyle related diseases have increased.
  
  ####################################
  
