@@ -14,8 +14,11 @@ summary(dataset)
 #Clean the dataset
 df <- dataset %>%
     filter(Duration != "",
-           StartHub != "",
-           EndHub != "") %>%
+           Distance_Miles != "",
+           !is.na(StartLatitude),
+           !is.na(StartLongitude),
+           Distance_Miles < 100
+           ) %>%
     mutate(StartDate = mdy(StartDate),
            EndDate = mdy(EndDate),
            StartTime = hm(StartTime),
@@ -24,14 +27,20 @@ df <- dataset %>%
            BikeID = as.character(BikeID),
            Duration = as.numeric(Duration))
 
+df_heatmap <- df %>%
+         mutate(year = year(StartDate),
+          month = month(StartDate, label=TRUE),
+          day = day(StartDate),
+          hour = hour(StartTime) ) %>%
+     group_by(day, month) %>%
+     summarise(count = n()) 
 
-summary(df)
+head(df_heatmap)
 
-df %>%
-  group_by(StartTime, PaymentPlan) %>%
-  summarise(Trips = n()) %>%
-  ggplot(aes(StartTime, Trips, color = PaymentPlan)) +
-  geom_line()
+ggplot(df_heatmap,aes(day,month, fill = count))+
+  geom_tile(color= "white",size=0.1) +
+  scale_y_continuous(trans = "reverse", breaks = unique(df_heatmap$month))+
+  scale_x_continuous(breaks =c(1,10,20,31))
 
 
 #Start hub with highest number of trips (map)
